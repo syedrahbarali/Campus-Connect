@@ -1,0 +1,29 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.ts",
+  "scripts": {
+    "dev": "concurrently \"tsc -w\" \"nodemon dist/index.js\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "bcryptjs": "^3.0.2",
+    "crypto": "^1.0.1",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.13.0",
+    "typescript": "^5.8.2"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.1",
+    "@types/jsonwebtoken": "^9.0.9",
+    "@types/node": "^22.13.13",
+    "concurrently": "^9.1.2",
+    "ts-node": "^10.9.2"
+  }
+}
