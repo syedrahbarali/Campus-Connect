@@ -7,12 +7,30 @@ export default function Login() {
   const [credentials, setCredentials] = useState({ email: "", password: "" });
   const navigate = useNavigate();
 
-  const handleLogin = () => {
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
     console.log("Logging in with:", {
       email: credentials.email,
       password: credentials.password,
     });
-    navigate("/dashboard");
+
+    try {
+      await fetch("http://localhost:3000/api/v1/user/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(credentials),
+      })
+        .then(async (resp) => {
+          console.log(await resp.json());
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } catch (error) {
+      console.error("Error logging in:", error);
+    }
   };
 
   return (
@@ -71,7 +89,7 @@ export default function Login() {
           transition={{ delay: 0.5 }}
         >
           <button
-            onClick={handleLogin}
+            onClick={(e) => handleLogin(e)}
             className="w-full p-3 bg-blue-500 text-white rounded-lg font-semibold hover:bg-blue-600 transition duration-300"
           >
             Login

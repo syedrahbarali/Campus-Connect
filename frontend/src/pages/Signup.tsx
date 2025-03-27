@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { FaUser, FaEnvelope, FaLock } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 export default function SignupForm() {
   const [name, setName] = useState("");
@@ -8,8 +9,22 @@ export default function SignupForm() {
   const [password, setPassword] = useState("");
   const [submitted, setSubmitted] = useState(false);
 
-  const handleSignup = (e: React.FormEvent) => {
+  const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    await fetch("http://localhost:3000/api/v1/user/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ name, email, password }),
+    })
+      .then(async (resp) => {
+        console.log(await resp.json());
+      })
+      .catch((err) => {
+        console.log(err);
+      });
     setSubmitted(true);
   };
 
@@ -105,7 +120,9 @@ export default function SignupForm() {
             </form>
             <p className="text-center text-gray-600 mt-4">
               Already have an account?{" "}
-              <span className="text-green-500 cursor-pointer">Log in</span>
+              <Link to="/login" className="text-green-600 hover:underline">
+                Login
+              </Link>
             </p>
           </>
         )}

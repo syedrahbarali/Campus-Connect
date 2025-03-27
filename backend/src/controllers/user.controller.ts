@@ -76,6 +76,7 @@ export const createAccount = async (
 };
 
 export const login = async (req: Request, res: Response) => {
+  console.log("Login started");
   try {
     const { email, password }: { email: string; password: string } = req.body;
 
@@ -96,11 +97,13 @@ export const login = async (req: Request, res: Response) => {
     if (student && (await comparePassword(password, student.password))) {
       console.log("Student Logged in successfully");
 
-      const accessToken = await generateAccessToken({
+      const accessToken = generateAccessToken({
         id: student._id,
         email,
         role: "student",
       });
+
+      console.log(accessToken);
 
       return res.status(200).json({
         message: "Login successful",
@@ -108,6 +111,11 @@ export const login = async (req: Request, res: Response) => {
         token: accessToken,
       });
     }
+
+    console.log("HERE");
+      return res
+        .status(400)
+        .json({ message: "Invalid credentials", success: false });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ message: "Internal server error", error });
